@@ -1,0 +1,21 @@
+.char {
+  display: inline-block;
+  will-change: filter;
+  filter: blur(var(--blur, 0px));
+  transition: filter 140ms linear;
+}
+
+@keyframes blurOutIn {
+  0% {
+    filter: blur(0px);
+    opacity: 1;
+  }
+  38% {
+    filter: blur(var(--b, 7px));
+    opacity: var(--o, 0.55);
+  }
+  100% {
+    filter: blur(0px);
+    opacity: 1;
+  }
+}

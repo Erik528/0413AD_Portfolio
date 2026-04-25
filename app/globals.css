@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f5f3ef;
+  --foreground: #111111;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-montserrat);
+  --font-mono: var(--font-geist-mono);
+  --animate-scroll: scroll 30s linear infinite;
+  --animate-glitch: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+  --animate-hero-reveal: hero-reveal 2.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-hero-reveal-delayed: hero-reveal 2.5s cubic-bezier(0.16, 1, 0.3, 1) 1s both;
+  --animate-fade-in-slow: fade-in 2s ease-out 2s both;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-reveal {
+  from {
+    opacity: 0;
+    filter: blur(15px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 2px);
+  }
+
+  40% {
+    transform: translate(-2px, -2px);
+  }
+
+  60% {
+    transform: translate(2px, 2px);
+  }
+
+  80% {
+    transform: translate(2px, -2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes learnmore-blur-flicker {
+  0% {
+    filter: blur(0px);
+    opacity: 1;
+  }
+
+  8% {
+    filter: blur(0.6px);
+  }
+
+  16% {
+    filter: blur(0px);
+  }
+
+  27% {
+    filter: blur(1.6px);
+    opacity: 0.98;
+  }
+
+  38% {
+    filter: blur(0.3px);
+    opacity: 1;
+  }
+
+  52% {
+    filter: blur(1.9px);
+    opacity: 0.97;
+  }
+
+  63% {
+    filter: blur(0px);
+    opacity: 1;
+  }
+
+  74% {
+    filter: blur(1.2px);
+  }
+
+  86% {
+    filter: blur(0px);
+  }
+
+  100% {
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply mx-auto w-full px-4 md:px-6 lg:px-8;
+  }
+
+  .learnmore-btn {
+    position: relative;
+  }
+
+  .learnmore-btn:hover {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35),
+      0 0 22px rgba(255, 255, 255, 0.35);
+    filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.28));
+  }
+
+  .learnmore-btn:hover .learnmore-text {
+    animation: learnmore-blur-flicker 2800ms ease-in-out infinite;
+    will-change: filter, opacity;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system,
+    Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+.marquee {
+  overflow: hidden;
+  width: 100%;
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 32s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+  }
+
+  .learnmore-btn:hover .learnmore-text {
+    animation: none;
+  }
+}
