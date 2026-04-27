@@ -102,7 +102,10 @@ function ResumeIntroHeadline() {
 
 export function ResumeSection() {
   return (
-    <section id="resume" className="relative border-b border-neutral-300/50 py-16 md:py-20 lg:py-24">
+    <section
+      id="resume"
+      className="relative border-b border-neutral-300/50 pt-16 pb-64 md:pt-20 md:pb-80 lg:pt-24 lg:pb-96"
+    >
       <div className="absolute top-0 left-0 w-full border-t border-neutral-300/70" />
       <div className="container-custom relative px-4 md:px-6 lg:px-8">
         <div className="absolute -bottom-[5px] left-0 text-[10px] font-bold text-neutral-400 lg:left-2">+</div>
@@ -122,14 +125,6 @@ export function ResumeSection() {
         <div className="grid grid-cols-1 gap-12 md:grid-cols-[1.1fr_0.9fr] md:items-start md:gap-16">
           <div>
             <ResumeIntroHeadline />
-
-            <div className="mt-12 max-w-[520px]">
-              <img
-                src="/assets/Radar_画板 1.png"
-                alt="Radar chart"
-                className="h-auto w-full"
-              />
-            </div>
           </div>
 
           <div className="flex justify-center md:justify-end">
@@ -138,6 +133,14 @@ export function ResumeSection() {
               alt="Erik Wu illustration"
               className="w-full max-w-[740px] h-auto"
             />
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute bottom-5 left-0 w-full">
+        <div className="container-custom px-4 md:px-6 lg:px-8">
+          <div className="text-[14px] font-bold uppercase tracking-[0.4em] text-neutral-900 md:text-[16px]">
+            CAREER HISTORY
           </div>
         </div>
       </div>

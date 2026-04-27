@@ -4,6 +4,7 @@ import { HeroSection } from "../components/HeroSection";
 import { Navbar } from "../components/Navbar";
 import { ResumeSection } from "../components/ResumeSection";
 import { StatementSection } from "../components/StatementSection";
+import { WorkCareerHistorySection } from "../components/WorkCareerHistorySection";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
         <StatementSection />
         <BrandExperienceSection />
         <ResumeSection />
+        <WorkCareerHistorySection />
       </main>
     </div>
   );

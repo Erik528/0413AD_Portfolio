@@ -172,4 +172,3 @@ export function Navbar({ variant = "home" }: NavbarProps) {
         </header>
     );
 }
-

@@ -17,8 +17,8 @@ export default function WorkPage() {
               </div>
             </div>
             <p className="max-w-[60ch] text-[14px] leading-relaxed text-neutral-700">
-              This page is the destination for your Featured Work click-through. Add work
-              projects, case studies, or a grid here.
+              This page is the destination for your Featured Work click-through. Add work projects, case studies, or a
+              grid here.
             </p>
           </div>
         </section>
@@ -26,4 +26,3 @@ export default function WorkPage() {
     </div>
   );
 }
-
