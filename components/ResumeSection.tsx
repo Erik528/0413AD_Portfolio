@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion, useAnimationControls, useInView } from "framer-motion";
+import { motion, useAnimationControls, useInView, useReducedMotion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import hoverStyles from "./HeroSloganHover.module.css";
 
 const resumeIntro =
@@ -9,6 +10,7 @@ const resumeIntro =
 
 function ResumeIntroHeadline() {
   const controls = useAnimationControls();
+  const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLHeadingElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10% 0px -20% 0px" });
   const hoverRef = useRef<HTMLHeadingElement>(null);
@@ -74,6 +76,38 @@ function ResumeIntroHeadline() {
     chars.forEach((node) => node.style.setProperty("--blur", "0px"));
   };
 
+  const segments = [
+    "HI,",
+    "I'M ERIK WU,",
+    "A SENIOR GRAPHIC DESIGNER WITH OVER 8 YEARS OF EXPERIENCE,",
+    "CURRENTLY BASED IN AUSTRALIA. GREAT TO MEET YOU!",
+  ];
+
+  const containerVariants: Variants = reduceMotion
+    ? {
+      hidden: { opacity: 1 },
+      show: { opacity: 1, transition: { staggerChildren: 0.01 } },
+    }
+    : {
+      hidden: { opacity: 1 },
+      show: { opacity: 1, transition: { staggerChildren: 0.55 } },
+    };
+
+  const segmentVariants: Variants = reduceMotion
+    ? {
+      hidden: { opacity: 0 },
+      show: { opacity: 1, transition: { duration: 0.25, ease: "easeOut" } },
+    }
+    : {
+      hidden: { opacity: 0, y: 14, filter: "blur(10px)" },
+      show: {
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+        transition: { duration: 1.05, ease: [0.22, 1, 0.36, 1] },
+      },
+    };
+
   return (
     <motion.h3
       ref={(node) => {
@@ -82,19 +116,25 @@ function ResumeIntroHeadline() {
       }}
       initial="hidden"
       animate={controls}
+      variants={containerVariants}
       className="text-left text-3xl font-bold leading-[1.1] tracking-tight text-neutral-900 md:text-5xl lg:text-7xl"
       onMouseMove={(e) => scheduleHoverGradient(e.clientX, e.clientY)}
       onMouseLeave={resetHoverGradient}
     >
-      {resumeIntro.split(" ").map((word, wordIdx) => (
-        <span key={`w-${wordIdx}`} className="inline-block whitespace-nowrap">
-          {Array.from(word).map((ch, chIdx) => (
-            <span key={`${word}-${ch}-${chIdx}`} className={hoverStyles.char}>
-              {ch}
+      {segments.map((segment, segmentIdx) => (
+        <motion.span key={`seg-${segmentIdx}`} variants={segmentVariants}>
+          {segment.split(" ").map((word, wordIdx) => (
+            <span key={`w-${segmentIdx}-${wordIdx}`} className="inline-block whitespace-nowrap">
+              {Array.from(word).map((ch, chIdx) => (
+                <span key={`${segmentIdx}-${word}-${ch}-${chIdx}`} className={hoverStyles.char}>
+                  {ch}
+                </span>
+              ))}
+              {wordIdx === segment.split(" ").length - 1 ? null : "\u00A0"}
             </span>
           ))}
-          {wordIdx === resumeIntro.split(" ").length - 1 ? null : "\u00A0"}
-        </span>
+          {segmentIdx === segments.length - 1 ? null : "\u00A0"}
+        </motion.span>
       ))}
     </motion.h3>
   );

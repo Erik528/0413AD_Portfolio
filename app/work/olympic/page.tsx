@@ -100,8 +100,6 @@ export default function OlympicPage() {
                 </div>
               </CokeBreakFadeInOnView>
 
-              <div className="mt-12 h-px w-full bg-neutral-300" />
-
               <div className="mt-12">
                 <div className="flex items-center gap-3">
                   <span className="text-[10px] font-bold text-neutral-900">+</span>

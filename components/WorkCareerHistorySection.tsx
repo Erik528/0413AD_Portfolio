@@ -1,3 +1,6 @@
+"use client";
+
+import { useReducedMotion, motion } from "framer-motion";
 import Image from "next/image";
 
 export function WorkCareerHistorySection() {
@@ -92,6 +95,26 @@ export function WorkCareerHistorySection() {
     },
   ] as const;
 
+  const reduceMotion = useReducedMotion();
+
+  const itemVariants = reduceMotion
+    ? {
+        hidden: { opacity: 0 },
+        show: (idx: number) => ({
+          opacity: 1,
+          transition: { duration: 0.35, ease: "easeOut", delay: idx * 0.12 },
+        }),
+      }
+    : {
+        hidden: { opacity: 0, x: 28, filter: "blur(10px)" },
+        show: (idx: number) => ({
+          opacity: 1,
+          x: 0,
+          filter: "blur(0px)",
+          transition: { duration: 0.95, ease: [0.22, 1, 0.36, 1], delay: idx * 0.18 },
+        }),
+      };
+
   return (
     <section className="relative border-b border-neutral-300/50 pt-14 pb-16 md:pt-16 md:pb-20 lg:pt-20 lg:pb-24">
       <div className="absolute left-0 right-0 top-4 border-t border-neutral-300/50" />
@@ -99,9 +122,19 @@ export function WorkCareerHistorySection() {
         <div className="mb-10 text-[14px] font-bold uppercase tracking-[0.4em] text-neutral-900 md:text-[16px]">
           CAREER HISTORY
         </div>
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 xl:grid-cols-[1.35fr_1.25fr_1fr_1fr] xl:gap-12">
-          {careerHistory.map((entry) => (
-            <div key={`${entry.timeframe}-${entry.role}`} className="flex h-full flex-col">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.25, margin: "-10% 0px -20% 0px" }}
+          className="grid grid-cols-1 gap-12 md:grid-cols-2 2xl:grid-cols-[1.35fr_1.25fr_1fr_1fr] 2xl:gap-12"
+        >
+          {careerHistory.map((entry, idx) => (
+            <motion.div
+              key={`${entry.timeframe}-${entry.role}`}
+              custom={idx}
+              variants={itemVariants}
+              className="flex h-full flex-col"
+            >
               {entry.variant === "freelancer" ? (
                 <div className="flex items-start gap-4">
                   <div className="relative mt-[2px] h-11 w-24">
@@ -226,9 +259,9 @@ export function WorkCareerHistorySection() {
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

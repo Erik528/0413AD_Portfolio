@@ -23,6 +23,18 @@ const featuredWorkVideos = [
   },
 ];
 
+const visualCampaignsCard = {
+  title: "VISUAL CAMPAIGNS",
+  href: "/work/visualcampaigns",
+  src: "/assets/VisualCampaigns/1.mp4",
+};
+
+const mobileExperienceCard = {
+  title: "MOBILE EXPERIENCE",
+  href: "/work/mobileexperience",
+  src: "/assets/MobileExperience/媒体1.mp4",
+};
+
 export function FeaturedWorkSection() {
   return (
     <section id="featured-work" className="relative border-b border-neutral-300/50 py-16 md:py-20 lg:py-24">
@@ -44,13 +56,13 @@ export function FeaturedWorkSection() {
             <span>+</span>
           </div>
         </div>
-        <div className="flex flex-col gap-10 md:gap-12">
-          {featuredWorkVideos.map(({ src, href, title }) => (
+        <div className="grid grid-cols-1 gap-x-10 gap-y-10 min-[480px]:grid-cols-2 min-[480px]:gap-x-8 min-[480px]:gap-y-12">
+          {featuredWorkVideos.map(({ src, href, title }, idx) => (
             <Link
               key={src}
               href={href}
               aria-label="View Work"
-              className="group relative block aspect-video w-full overflow-hidden"
+              className={`group relative block aspect-video w-full min-w-0 overflow-hidden ${idx < 2 ? "min-[480px]:col-span-2" : ""}`}
             >
               <video
                 autoPlay
@@ -62,6 +74,10 @@ export function FeaturedWorkSection() {
               >
                 <source src={src} type="video/mp4" />
               </video>
+              {(src === "/videos/0417-CokeOlympicMontage.mp4" ||
+                src === "/videos/0417-SpriteZeroMontage.mp4") && (
+                  <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-black/55 via-black/22 to-transparent md:h-28 lg:h-32" />
+                )}
               <div className="pointer-events-none absolute left-4 top-4 z-20 md:left-6 md:top-6">
                 <div
                   className={
@@ -93,6 +109,88 @@ export function FeaturedWorkSection() {
               </span>
             </Link>
           ))}
+
+          <Link
+            href={visualCampaignsCard.href}
+            aria-label={visualCampaignsCard.title}
+            className="group relative block aspect-video w-full overflow-hidden border border-neutral-300/50"
+          >
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="absolute inset-0 h-full w-full object-cover"
+            >
+              <source src={visualCampaignsCard.src} type="video/mp4" />
+            </video>
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-black/55 via-black/22 to-transparent md:h-28 lg:h-32" />
+            <div className="pointer-events-none absolute left-4 top-4 z-20 select-none md:left-6 md:top-6">
+              <div className="text-[22px] font-medium uppercase tracking-[0.08em] text-white md:text-[29px] lg:text-[35px]">
+                {visualCampaignsCard.title}
+              </div>
+            </div>
+            <span className="learnmore-btn absolute bottom-4 right-4 z-20 flex items-center gap-4 bg-white/40 px-6 py-3.5 backdrop-blur-md transition-all duration-500 group-hover:bg-white/60 md:bottom-6 md:right-6">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-neutral-700 transition-transform duration-500 group-hover:translate-x-0.5"
+              >
+                <path d="M7 8h6v10M13 18l-3-3M13 18l3-3" />
+              </svg>
+              <span className="learnmore-text text-[9px] font-bold tracking-[0.5em] text-neutral-700 transition-colors duration-500 group-hover:text-neutral-900">
+                LEARN MORE
+              </span>
+            </span>
+          </Link>
+
+          <Link
+            href={mobileExperienceCard.href}
+            aria-label={mobileExperienceCard.title}
+            className="group relative block aspect-video w-full overflow-hidden border border-neutral-300/50"
+          >
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="absolute inset-0 h-full w-full object-cover"
+            >
+              <source src={mobileExperienceCard.src} type="video/mp4" />
+            </video>
+            <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-black/55 via-black/22 to-transparent md:h-28 lg:h-32" />
+            <div className="pointer-events-none absolute left-4 top-4 z-20 select-none md:left-6 md:top-6">
+              <div className="text-[22px] font-medium uppercase tracking-[0.08em] text-white md:text-[29px] lg:text-[35px]">
+                {mobileExperienceCard.title}
+              </div>
+            </div>
+            <span className="learnmore-btn absolute bottom-4 right-4 z-20 flex items-center gap-4 bg-white/40 px-6 py-3.5 backdrop-blur-md transition-all duration-500 group-hover:bg-white/60 md:bottom-6 md:right-6">
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-neutral-700 transition-transform duration-500 group-hover:translate-x-0.5"
+              >
+                <path d="M7 8h6v10M13 18l-3-3M13 18l3-3" />
+              </svg>
+              <span className="learnmore-text text-[9px] font-bold tracking-[0.5em] text-neutral-700 transition-colors duration-500 group-hover:text-neutral-900">
+                LEARN MORE
+              </span>
+            </span>
+          </Link>
         </div>
       </div>
     </section>
