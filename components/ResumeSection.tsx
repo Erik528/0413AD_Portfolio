@@ -90,7 +90,7 @@ function ResumeIntroHeadline() {
     }
     : {
       hidden: { opacity: 1 },
-      show: { opacity: 1, transition: { staggerChildren: 0.55 } },
+      show: { opacity: 1, transition: { staggerChildren: 0.34 } },
     };
 
   const segmentVariants: Variants = reduceMotion
@@ -99,12 +99,12 @@ function ResumeIntroHeadline() {
       show: { opacity: 1, transition: { duration: 0.25, ease: "easeOut" } },
     }
     : {
-      hidden: { opacity: 0, y: 14, filter: "blur(10px)" },
+      hidden: { opacity: 0, y: 12, filter: "blur(9px)" },
       show: {
         opacity: 1,
         y: 0,
         filter: "blur(0px)",
-        transition: { duration: 1.05, ease: [0.22, 1, 0.36, 1] },
+        transition: { duration: 0.82, ease: [0.22, 1, 0.36, 1] },
       },
     };
 
