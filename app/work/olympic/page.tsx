@@ -1,6 +1,7 @@
 import { Navbar } from "../../../components/Navbar";
 import { CokeBreakTvcSection } from "../../../components/CokeBreakTvcSection";
 import { CokeBreakFadeInOnView } from "../../../components/CokeBreakFadeInOnView";
+import { CokeBreakScrollToTopButton } from "../../../components/CokeBreakScrollToTopButton";
 
 const videoSrc = "/videos/0417-CokeOlympicMontage.mp4";
 const youtubeUrl = "https://youtu.be/Rf6XjVa_XUs";
@@ -129,6 +130,10 @@ export default function OlympicPage() {
                   </div>
                 </CokeBreakFadeInOnView>
               </div>
+            </div>
+
+            <div className="flex justify-center">
+              <CokeBreakScrollToTopButton className="mt-40" />
             </div>
           </div>
         </section>
