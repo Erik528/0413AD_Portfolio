@@ -1,6 +1,7 @@
 "use client";
 
-import { useReducedMotion, motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import Image from "next/image";
 
 export function WorkCareerHistorySection() {
@@ -84,7 +85,7 @@ export function WorkCareerHistorySection() {
       companyMark: "Publicis Communications",
       variant: "branded",
       logoWidth: "w-40",
-      logoScale: "origin-right scale-[1.2]",
+      logoScale: "origin-left scale-[1.2]",
       role: "Graphic Designer - Publicis.Sapient",
       bullets: [
         "Delivered graphic design and digital creative support across social platforms, contributing to campaign planning and production of visual assets for multiple brands.",
@@ -97,23 +98,23 @@ export function WorkCareerHistorySection() {
 
   const reduceMotion = useReducedMotion();
 
-  const itemVariants = reduceMotion
+  const itemVariants: Variants = reduceMotion
     ? {
-        hidden: { opacity: 0 },
-        show: (idx: number) => ({
-          opacity: 1,
-          transition: { duration: 0.35, ease: "easeOut", delay: idx * 0.12 },
-        }),
-      }
+      hidden: { opacity: 0 },
+      show: (idx: number) => ({
+        opacity: 1,
+        transition: { duration: 0.35, ease: "easeOut", delay: idx * 0.12 },
+      }),
+    }
     : {
-        hidden: { opacity: 0, x: 28, filter: "blur(10px)" },
-        show: (idx: number) => ({
-          opacity: 1,
-          x: 0,
-          filter: "blur(0px)",
-          transition: { duration: 0.95, ease: [0.22, 1, 0.36, 1], delay: idx * 0.18 },
-        }),
-      };
+      hidden: { opacity: 0, x: 28, filter: "blur(10px)" },
+      show: (idx: number) => ({
+        opacity: 1,
+        x: 0,
+        filter: "blur(0px)",
+        transition: { duration: 0.95, ease: [0.22, 1, 0.36, 1] as [number, number, number, number], delay: idx * 0.18 },
+      }),
+    };
 
   return (
     <section className="relative border-b border-neutral-300/50 pt-14 pb-16 md:pt-16 md:pb-20 lg:pt-20 lg:pb-24">
@@ -159,7 +160,9 @@ export function WorkCareerHistorySection() {
                     </div>
                   </div>
                 </div>
-              ) : entry.variant === "branded" ? (
+              ) : null}
+
+              {entry.variant === "branded" ? (
                 <div className="flex items-start gap-4">
                   {entry.companyMark && brandedTopLogoSrc[entry.companyMark] ? (
                     <div className={`relative mt-[2px] h-11 ${entry.logoWidth ?? "w-20"}`}>
@@ -191,26 +194,7 @@ export function WorkCareerHistorySection() {
                     </div>
                   </div>
                 </div>
-              ) : (
-                <div className="flex items-start justify-between gap-6">
-                  <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-neutral-900">
-                    {entry.timeframe}
-                  </div>
-                  <div className="text-right text-[10px] font-bold text-neutral-500">{entry.location}</div>
-                </div>
-              )}
-
-              {entry.variant === "branded" ? null : entry.companyMark ? (
-                <div className="mt-3">
-                  <div className="inline-flex items-center justify-center bg-neutral-200 px-3 py-2 text-[12px] font-extrabold uppercase tracking-[0.22em] text-neutral-900">
-                    {entry.companyMark}
-                  </div>
-                </div>
               ) : null}
-
-              {entry.variant === "freelancer" || entry.variant === "branded" ? null : (
-                <div className="mt-3 text-[12px] font-bold text-[#f12b1c]">{entry.role}</div>
-              )}
 
               <ul className="mt-4 space-y-4 text-[11px] leading-[1.6] text-neutral-700">
                 {entry.bullets.map((item) => (

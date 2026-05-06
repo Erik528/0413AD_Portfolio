@@ -137,7 +137,7 @@ function CTAHeadline() {
 
 export function BottomCTASection() {
   return (
-    <section className="relative overflow-hidden bg-background py-20 md:py-24 lg:py-28">
+    <section id="contact" className="relative overflow-hidden bg-background py-20 md:py-24 lg:py-28">
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute inset-y-0 left-0 flex items-center">
           <video

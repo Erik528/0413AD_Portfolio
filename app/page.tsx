@@ -16,10 +16,10 @@ export default function Home() {
         <HeroSection />
         <FeaturedWorkSection />
         <StatementSection />
-        <BrandExperienceSection />
         <ResumeSection />
         <WorkCareerHistorySection />
         <SkillsSection />
+        <BrandExperienceSection />
         <BottomCTASection />
       </main>
     </div>

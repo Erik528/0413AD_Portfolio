@@ -80,7 +80,7 @@ function ResumeIntroHeadline() {
     "HI,",
     "I'M ERIK WU,",
     "A SENIOR GRAPHIC DESIGNER WITH OVER 8 YEARS OF EXPERIENCE,",
-    "CURRENTLY BASED IN AUSTRALIA. GREAT TO MEET YOU!",
+    "NICE TO MEET YOU!",
   ];
 
   const containerVariants: Variants = reduceMotion

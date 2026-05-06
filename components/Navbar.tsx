@@ -92,7 +92,7 @@ export function Navbar({ variant = "home" }: NavbarProps) {
     const navLinks = [
         { label: "Work", href: "#featured-work" },
         { label: "Resume", href: "#resume" },
-        { label: "Contact", href: "#brand-experience" },
+        { label: "Contact", href: "#contact" },
     ];
 
     const leftLinks =

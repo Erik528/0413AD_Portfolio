@@ -1,5 +1,7 @@
 "use client";
 
+import { useReducedMotion, motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import { useState } from "react";
 import { ImageLightbox } from "./ImageLightbox";
 
@@ -14,6 +16,7 @@ type FeaturedGroup = {
   images: VisualCampaignImage[];
   title?: string;
   caption?: string;
+  captionMode?: "group" | "per-image";
   layout?: "stacked" | "row" | "masonry";
 };
 
@@ -21,9 +24,11 @@ type VisualCampaignsGalleryProps = {
   images: VisualCampaignImage[];
   featured?: FeaturedGroup | FeaturedGroup[];
   tail?: FeaturedGroup | FeaturedGroup[];
+  masonryColumnsMd?: 3 | 4 | 5 | 6;
 };
 
-export function VisualCampaignsGallery({ images, featured, tail }: VisualCampaignsGalleryProps) {
+export function VisualCampaignsGallery({ images, featured, tail, masonryColumnsMd = 3 }: VisualCampaignsGalleryProps) {
+  const reduceMotion = useReducedMotion();
   const [selected, setSelected] = useState<VisualCampaignImage | null>(null);
   const featuredGroups = Array.isArray(featured) ? featured : featured ? [featured] : [];
   const tailGroups = Array.isArray(tail) ? tail : tail ? [tail] : [];
@@ -32,6 +37,27 @@ export function VisualCampaignsGallery({ images, featured, tail }: VisualCampaig
   );
   const restImages = removedSrcs.size ? images.filter((img) => !removedSrcs.has(img.src)) : images;
 
+  const masonryColsClass =
+    masonryColumnsMd === 6
+      ? "md:columns-6"
+      : masonryColumnsMd === 5
+        ? "md:columns-5"
+        : masonryColumnsMd === 4
+          ? "md:columns-4"
+          : "md:columns-3";
+
+  const captionVariants: Variants = reduceMotion
+    ? { hidden: { opacity: 0 }, show: { opacity: 1 } }
+    : {
+        hidden: { opacity: 0, y: 10, filter: "blur(9px)" },
+        show: (idx: number) => ({
+          opacity: 1,
+          y: 0,
+          filter: "blur(0px)",
+          transition: { duration: 0.75, ease: [0.22, 1, 0.36, 1] as [number, number, number, number], delay: idx * 0.14 },
+        }),
+      };
+
   return (
     <>
       {featuredGroups.map((group, idx) => (
@@ -39,29 +65,44 @@ export function VisualCampaignsGallery({ images, featured, tail }: VisualCampaig
           {group.layout === "row" ? (
             <div className="grid grid-cols-1 items-start gap-4 md:grid-cols-2 md:gap-4">
               {group.images.map((img) => (
-                <div key={img.src} className="overflow-hidden rounded-[18px] bg-neutral-200">
-                  <button
-                    type="button"
-                    onClick={() => setSelected(img)}
-                    className="block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
-                    aria-label={`Open image: ${img.alt}`}
-                  >
-                    <img src={img.src} alt={img.alt} className="block h-auto w-full object-contain" />
-                  </button>
+                <div key={img.src}>
+                  <div className="overflow-hidden rounded-[18px] bg-neutral-200">
+                    <button
+                      type="button"
+                      onClick={() => setSelected(img)}
+                      className="group block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
+                      aria-label={`Open image: ${img.alt}`}
+                    >
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        className="block h-auto w-full object-contain transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.03]"
+                      />
+                    </button>
+                  </div>
+                  {group.captionMode === "per-image" && img.caption ? (
+                    <div className="mt-4 text-center text-[12px] leading-[1.45] text-neutral-700 md:text-[13px]">
+                      {img.caption}
+                    </div>
+                  ) : null}
                 </div>
               ))}
             </div>
           ) : group.layout === "masonry" ? (
-            <div className="columns-1 gap-4 md:columns-3">
+            <div className={`columns-1 gap-4 ${masonryColsClass}`}>
               {group.images.map((img) => (
                 <div key={img.src} className="mb-4 break-inside-avoid overflow-hidden rounded-[18px] bg-neutral-200">
                   <button
                     type="button"
                     onClick={() => setSelected(img)}
-                    className="block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
+                    className="group block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
                     aria-label={`Open image: ${img.alt}`}
                   >
-                    <img src={img.src} alt={img.alt} className="block h-auto w-full" />
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      className="block h-auto w-full transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.03]"
+                    />
                   </button>
                 </div>
               ))}
@@ -73,34 +114,49 @@ export function VisualCampaignsGallery({ images, featured, tail }: VisualCampaig
                   <button
                     type="button"
                     onClick={() => setSelected(img)}
-                    className="block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
+                    className="group block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
                     aria-label={`Open image: ${img.alt}`}
                   >
-                    <img src={img.src} alt={img.alt} className="block h-auto w-full object-contain" />
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      className="block h-auto w-full object-contain transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.03]"
+                    />
                   </button>
                 </div>
               ))}
             </div>
           )}
 
-          {group.caption ? (
-            <div className="mt-5 text-center text-[12px] leading-[1.45] text-neutral-700 md:text-[13px]">
+          {group.captionMode === "per-image" ? null : group.caption ? (
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.8, margin: "-10% 0px -20% 0px" }}
+              variants={captionVariants}
+              custom={idx}
+              className="mt-5 text-center text-[12px] leading-[1.45] text-neutral-700 md:text-[13px]"
+            >
               {group.caption}
-            </div>
+            </motion.div>
           ) : null}
         </div>
       ))}
 
-      <div className="columns-1 gap-4 md:columns-3">
+      <div className={`columns-1 gap-4 ${masonryColsClass}`}>
         {restImages.map((img) => (
           <div key={img.src} className="mb-4 break-inside-avoid overflow-hidden rounded-[18px] bg-neutral-200">
             <button
               type="button"
               onClick={() => setSelected(img)}
-              className="block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
+              className="group block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
               aria-label={`Open image: ${img.alt}`}
             >
-              <img src={img.src} alt={img.alt} className="block h-auto w-full" />
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="block h-auto w-full transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.03]"
+              />
             </button>
           </div>
         ))}
@@ -124,25 +180,33 @@ export function VisualCampaignsGallery({ images, featured, tail }: VisualCampaig
                   <button
                     type="button"
                     onClick={() => setSelected(img)}
-                    className="block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
+                    className="group block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
                     aria-label={`Open image: ${img.alt}`}
                   >
-                    <img src={img.src} alt={img.alt} className="block h-auto w-full object-contain" />
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      className="block h-auto w-full object-contain transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.03]"
+                    />
                   </button>
                 </div>
               ))}
             </div>
           ) : group.layout === "masonry" ? (
-            <div className="columns-1 gap-4 md:columns-3">
+            <div className={`columns-1 gap-4 ${masonryColsClass}`}>
               {group.images.map((img) => (
                 <div key={img.src} className="mb-4 break-inside-avoid overflow-hidden rounded-[18px] bg-neutral-200">
                   <button
                     type="button"
                     onClick={() => setSelected(img)}
-                    className="block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
+                    className="group block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
                     aria-label={`Open image: ${img.alt}`}
                   >
-                    <img src={img.src} alt={img.alt} className="block h-auto w-full" />
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      className="block h-auto w-full transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.03]"
+                    />
                   </button>
                 </div>
               ))}
@@ -154,10 +218,14 @@ export function VisualCampaignsGallery({ images, featured, tail }: VisualCampaig
                   <button
                     type="button"
                     onClick={() => setSelected(img)}
-                    className="block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
+                    className="group block w-full cursor-zoom-in focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-neutral-900"
                     aria-label={`Open image: ${img.alt}`}
                   >
-                    <img src={img.src} alt={img.alt} className="block h-auto w-full object-contain" />
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      className="block h-auto w-full object-contain transition-transform duration-500 ease-out will-change-transform group-hover:scale-[1.03]"
+                    />
                   </button>
                 </div>
               ))}
@@ -165,9 +233,16 @@ export function VisualCampaignsGallery({ images, featured, tail }: VisualCampaig
           )}
 
           {group.caption ? (
-            <div className="mt-5 text-center text-[12px] leading-[1.55] text-neutral-700 md:text-[13px]">
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.8, margin: "-10% 0px -20% 0px" }}
+              variants={captionVariants}
+              custom={idx}
+              className="mt-5 text-center text-[12px] leading-[1.55] text-neutral-700 md:text-[13px]"
+            >
               {group.caption}
-            </div>
+            </motion.div>
           ) : null}
         </div>
       ))}

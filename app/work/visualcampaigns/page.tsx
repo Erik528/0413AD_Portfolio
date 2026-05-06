@@ -1,11 +1,20 @@
 import { Navbar } from "../../../components/Navbar";
 import { CokeBreakScrollToTopButton } from "../../../components/CokeBreakScrollToTopButton";
+import { VisualCampaignsIntro } from "../../../components/VisualCampaignsIntro";
 import { VisualCampaignsGallery } from "../../../components/VisualCampaignsGallery";
 
 export default function VisualCampaignsPage() {
   const images = [
-    { src: "/assets/VisualCampaigns/1a.png", alt: "Visual Campaign 1a", disableCaption: true },
-    { src: "/assets/VisualCampaigns/1b.png", alt: "Visual Campaign 1b", disableCaption: true },
+    {
+      src: "/assets/VisualCampaigns/1a.png",
+      alt: "Visual Campaign 1a",
+      caption: "Key visual for Huawei Cloud server campaign (2021)",
+    },
+    {
+      src: "/assets/VisualCampaigns/1b.png",
+      alt: "Visual Campaign 1b",
+      caption: "Key visual for Huawei Cloud server campaign (2021)",
+    },
     {
       src: "/assets/VisualCampaigns/1g.jpg",
       alt: "Visual Campaign 1g",
@@ -37,8 +46,16 @@ export default function VisualCampaignsPage() {
       alt: "Visual Campaign 1i",
       caption: "Co-branded campaign for Kinder Joy and National Geographic (2018)",
     },
-    { src: "/assets/VisualCampaigns/1k.jpg", alt: "Visual Campaign 1k", disableCaption: true },
-    { src: "/assets/VisualCampaigns/1l.jpg", alt: "Visual Campaign 1l", disableCaption: true },
+    {
+      src: "/assets/VisualCampaigns/1k.jpg",
+      alt: "Visual Campaign 1k",
+      caption: "Key visual for Coca-Cola Peach flavour product launch (2022)",
+    },
+    {
+      src: "/assets/VisualCampaigns/1l.jpg",
+      alt: "Visual Campaign 1l",
+      caption: "Key visual for Coca-Cola Peach flavour product launch (2022)",
+    },
     {
       src: "/assets/VisualCampaigns/1j.jpg",
       alt: "Visual Campaign 1j",
@@ -113,15 +130,13 @@ export default function VisualCampaignsPage() {
               <div className="relative mt-2 border-b border-neutral-300/70" />
             </div>
 
-            <div className="mb-12 mx-auto max-w-[72ch] text-center text-[14px] leading-[1.6] text-neutral-700 md:text-[16px]">
-              <p>
-                This page presents selected key visuals and posters that I led or contributed to as the main designer/
-                art director.
-              </p>
-              <p className="mt-6">
-                Selected clients: Coca-Cola, Sprite, Maestro, Plavix, Kinder Joy, Huawei, among others.
-              </p>
-            </div>
+            <VisualCampaignsIntro
+              className="mb-12 mx-auto max-w-[72ch] text-center text-[14px] leading-[1.6] text-neutral-700 md:text-[16px]"
+              paragraphs={[
+                "This page presents selected key visuals and posters that I led or contributed to as the main designer/ art director.",
+                "Selected clients: Coca-Cola, Sprite, Maestro, Plavix, Kinder Joy, Huawei, among others.",
+              ]}
+            />
 
             <VisualCampaignsGallery
               images={[...images]}
@@ -168,7 +183,7 @@ export default function VisualCampaignsPage() {
                 {
                   images: [{ ...bySrc("/assets/VisualCampaigns/4a.jpg") }, { ...bySrc("/assets/VisualCampaigns/4b.jpg") }],
                   caption:
-                    "here are a few 3D artworks I created using Cinema 4D, as part of my personal exploration of form, lighting, and texture.",
+                    "Here are a few 3D artworks I created using Cinema 4D, as part of my personal exploration of form, lighting, and texture.",
                   layout: "row",
                 },
               ]}
